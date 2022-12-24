@@ -1,5 +1,6 @@
 plugins {
-    kotlin("js") version "1.7.20"
+    kotlin("multiplatform") version "1.7.20"
+    id("convention.publication")
 }
 
 group = "io.github.lucasmdjl96"
@@ -14,10 +15,17 @@ kotlin {
         browser()
         nodejs()
     }
-}
-
-dependencies {
-    api(npm("crypto-js", "4.1.1"))
-    testImplementation(kotlin("test"))
-    testImplementation("org.jetbrains.kotlin-wrappers:kotlin-js:1.0.0-pre.458")
+    sourceSets {
+        val jsMain by getting {
+            dependencies {
+                api(npm("crypto-js", "4.1.1"))
+            }
+        }
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-js:1.0.0-pre.458")
+            }
+        }
+    }
 }
